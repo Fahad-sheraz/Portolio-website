@@ -1,43 +1,571 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fahad Portfolio with Hero & About</title>
+  <!-- Bootstrap CSS CDN -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <style>
+    /* Animated gradient background */
+    @keyframes gradientShift {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(
+        -45deg,
+        #1f4037,
+        #4881c2,
+        #2c5364,
+        #203a43
+      );
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      color: #222;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Navbar styling */
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #a7eddb;
+    }
+
+    .navbar-nav .nav-link {
+      font-weight: 500;
+      font-size: 1.1rem;
+      color: #d1f0e1;
+      transition: color 0.3s ease;
+    }
+
+    .navbar-nav .nav-link:hover,
+    .navbar-nav .nav-link.active {
+      color: #68d8c0;
+    }
+
+    .navbar {
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+      background-color: rgba(0, 0, 0, 0.25);
+      padding: 0.5rem 1rem;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      position: fixed;
+      width: 100%;
+      z-index: 1030;
+    }
+
+    .content-placeholder {
+      height: 70px;
+    }
+
+    /* Hero section styles */
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: calc(100vh - 70px);
+      padding: 2rem 1rem;
+      color: #d1f0e1;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-text {
+      flex: 1 1 350px;
+      max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero-text h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+      color: #a7eddb;
+      line-height: 1.1;
+    }
+
+    .changing-text {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #94fae4;
+      white-space: nowrap;
+      border-right: 3px solid #68d8c0;
+      overflow: hidden;
+      max-width: 100%;
+      padding-right: 5px;
+      animation: blinkCursor 1s infinite steps(2);
+    }
+
+    /* blinking cursor animation */
+    @keyframes blinkCursor {
+      0%, 49% {
+        border-color: #68d8c0;
+      }
+      50%, 100% {
+        border-color: transparent;
+      }
+    }
+
+    .hero-image-wrapper {
+      flex: 1 1 300px;
+      max-width: 350px;
+      aspect-ratio: 1 / 1;
+      position: relative;
+      border-radius: 50%;
+      padding: 6px; /* space for glowing border */
+      box-sizing: content-box;
+      animation: rgbGlow 3s linear infinite;
+    }
+
+    .hero-image-wrapper::before {
+      content: "";
+      position: absolute;
+      top: -6px;
+      left: -6px;
+      right: -6px;
+      bottom: -6px;
+      border-radius: 50%;
+      background: linear-gradient(
+        45deg,
+        red,
+        orange,
+        yellow,
+        green,
+        cyan,
+        blue,
+        violet,
+        red
+      );
+      background-size: 400% 400%;
+      animation: gradientShift 10s ease infinite;
+      z-index: -1;
+      filter: blur(6px);
+    }
+
+    .hero-image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid transparent; /* To maintain size */
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 0 20px rgb(104 216 192 / 0.7);
+    }
+
+    /* Full line above About Section */
+    .full-line {
+      width: 100%;
+      height: 4px; /* Adjust the height as needed */
+      background-color: #68d8c0; /* Color of the line */
+      margin: 0 auto; /* Center the line */
+    }
+
+    /* About section styles */
+    section#about {
+      color: #d1f0e1;
+      padding: 4rem 1rem 5rem; /* increased top padding for distinct spacing */
+      max-width: 960px;
+      margin: 0 auto 4rem;
+      text-align: center;
+      user-select: none;
+      /* Removed the border-top property */
+    }
+    section#about h2 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #a7eddb;
+    }
+    section#about p {
+      font-size: 1.3rem;
+      line-height: 1.6;
+      max-width: 700px;
+      margin: 0 auto 3rem;
+      color: #c3e7d7;
+    }
+
+    /* Cards container with bootstrap row */
+    .cards-container .row {
+      justify-content: center; /* align cards towards center */
+      max-width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    /* Flip card */
+    .flip-card {
+      background: transparent;
+      perspective: 1000px;
+      cursor: pointer;
+      height: auto;
+      min-height: 250px;
+      width: 100%; /* Set to 100% for responsive design */
+      margin-bottom: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 8px 15px rgb(0 0 0 / 0.3);
+      display: flex;
+      flex-direction: column;
+      margin-right: 1.5rem; /* spacing between cards horizontally */
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-style: preserve-3d;
+      border-radius: 1rem;
+      background-color: rgba(255, 255, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+      box-sizing: border-box;
+    }
+
+    .flip-card:hover .flip-card-inner,
+    .flip-card:focus-within .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    /* Front and back sides */
+    .flip-card-front,
+    .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden; /* Safari */
+      backface-visibility: hidden;
+      border-radius: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      user-select: none;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    .flip-card-front {
+      color: #fff;
+      font-weight: 600;
+      font-size: 1.5rem;
+      background: rgba(104, 216, 192, 0.6);
+      box-shadow: inset 0 0 50px #68d8c0;
+    }
+
+    .flip-card-front img {
+      max-width: 80px;
+      margin-bottom: 1.5rem;
+      filter: drop-shadow(0 0 2px #68d8c0);
+      flex-shrink: 0;
+    }
+
+    .flip-card-back {
+      color: #a7eddb;
+      background: rgba(7, 55, 42, 0.85);
+      transform: rotateY(180deg);
+      font-weight: 600;
+      font-size: 1.5rem;
+      box-shadow: inset 0 0 30px #28b487;
+      padding-top: 1.2rem;
+    }
+
+    .flip-card-back img {
+      max-width: 88px;
+      margin-bottom: 1.2rem;
+      filter: drop-shadow(0 0 6px #28b487);
+      flex-shrink: 0;
+    }
+
+    /* Logo container for Express + MongoDB card */
+    .dual-logos {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.7rem;
+      flex-wrap: nowrap;
+      margin-bottom: 1rem;
+    }
+
+    .dual-logos img {
+      max-width: 56px;
+      filter: drop-shadow(0 0 4px #28b487);
+    }
+
+    /* Responsive styles */
+    @media (min-width: 992px) {
+      .cards-container .row {
+        justify-content: center !important;
+      }
+      .flip-card {
+        flex: 0 0 calc(33.333% - 1.5rem); /* Adjust width for three cards in a row */
+        max-width: calc(33.333% - 1.5rem);
+      }
+    }
+
+    @media (max-width: 991px) {
+      .flip-card {
+        width: 45%;
+        max-width: 280px;
+        min-height: 400px;
+        margin-right: 1rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .flip-card {
+        width: 100%;
+        max-width: 100%;
+        min-height: 380px;
+        margin-right: 0;
+      }
+      .flip-card-front,
+      .flip-card-back {
+        font-size: 1.2rem;
+      }
+      .flip-card-front img,
+      .flip-card-back img {
+        max-width: 56px;
+        margin-bottom: 1rem;
+      }
+      .dual-logos img {
+        max-width: 44px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light ">
-  <div class="container-fluid ">
-    <a class="navbar-brand position-relative ms-5" href="#"><span class="name">FAHAD SHERAZ</span></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse position-relative" id="navbarNavDropdown">
-      <ul class="navbar-nav position-absolute start-50 top-50 translate-middle">
-        <li class="nav-item  ">
-          <a class="btn me-5 btn-nav" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="btn  me-5" href="#">About</a>
-        </li>
-        <li class="nav-item">
-          <a class="btn  me-5" href="#">Skills</a>
-        </li>
-         <li class="nav-item">
-          <a class="btn  me-5" href="#">Pricing</a>
-        </li>
-         </li>
-         <li class="nav-item">
-          <a class="btn me-5" href="#">Pricing</a>
-        </li>
-      </ul>
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+      <a class="navbar-brand" href="#">Portfolio</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#home">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#about">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#skills">Skills</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#projects">Projects</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contact">Contact</a>
+          </li>
+        </ul>
+      </div>
     </div>
-  </div>
-</nav>
-    <script src="app.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  </nav>
+  <div class="content-placeholder"></div>
 
+  <section class="hero container" id="home">
+    <div class="hero-text">
+      <h1>Hi, I am Fahad</h1>
+      <div id="changing-text" class="changing-text" aria-live="polite" aria-atomic="true"></div>
+    </div>
+    <div class="hero-image-wrapper" aria-label="Fahad's photo">
+      <img
+        src="https://i.pravatar.cc/400?img=12"
+        alt="Fahad profile photo"
+        class="hero-image"
+      />
+    </div>
+  </section>
+
+  <!-- Full line above About Section -->
+  <div class="full-line"></div>
+
+  <!-- About Section below Hero -->
+  <section id="about" tabindex="-1" aria-label="About Fahad">
+    <h2>About Me</h2>
+    <p>
+      I am Fahad, a passionate full stack developer with expertise in building modern, responsive, and performant web applications. I love turning ideas into reality using clean, efficient code and the latest technologies.
+    </p>
+
+    <div class="container cards-container">
+      <div class="row g-4 flex-wrap">
+        <!-- HTML5 Card -->
+        <div class="flip-card col-md-4" tabindex="0" role="listitem" aria-label="HTML5 technology card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5 Logo" loading="lazy" />
+              HTML5
+            </div>
+            <div class="flip-card-back">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5 Logo" loading="lazy" />
+              HTML5
+            </div>
+          </div>
+        </div>
+
+        <!-- CSS3 & Bootstrap Card -->
+        <div class="flip-card col-md-4" tabindex="0" role="listitem" aria-label="CSS3 and Bootstrap technology card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3 Logo" loading="lazy" />
+              CSS3 & Bootstrap
+            </div>
+            <div class="flip-card-back">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-plain.svg" alt="Bootstrap Logo" loading="lazy" />
+              CSS3 & Bootstrap
+            </div>
+          </div>
+        </div>
+
+        <!-- JavaScript Card -->
+        <div class="flip-card col-md-4" tabindex="0" role="listitem" aria-label="JavaScript technology card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript Logo" loading="lazy" />
+              JavaScript
+            </div>
+            <div class="flip-card-back">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript Logo" loading="lazy" />
+              JavaScript
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row g-4 flex-wrap">
+        <!-- React Card -->
+        <div class="flip-card col-md-4" tabindex="0" role="listitem" aria-label="React technology card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React Logo" loading="lazy" />
+              React
+            </div>
+            <div class="flip-card-back">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React Logo" loading="lazy" />
+              React
+            </div>
+          </div>
+        </div>
+
+        <!-- Express.js & MongoDB Card -->
+        <div class="flip-card col-md-4" tabindex="0" role="listitem" aria-label="Express.js and MongoDB technology card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="dual-logos" aria-hidden="true">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" alt="Express.js Logo" loading="lazy" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB Logo" loading="lazy" />
+              </div>
+              Express.js &amp; MongoDB
+            </div>
+            <div class="flip-card-back">
+              <div class="dual-logos" aria-hidden="true">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" alt="Express.js Logo" loading="lazy" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB Logo" loading="lazy" />
+              </div>
+              Express.js &amp; MongoDB
+            </div>
+          </div>
+        </div>
+
+        <!-- Next.js Card -->
+        <div class="flip-card col-md-4" tabindex="0" role="listitem" aria-label="Next.js technology card">
+          <div class="flip-card-inner">
+             <div class="flip-card-front">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" alt="Next.js Logo" loading="lazy" />
+              Next.js
+            </div>
+            <div class="flip-card-back">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" alt="Next.js Logo" loading="lazy" />
+              Next.js
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Typewriter effect for hero changing text
+    const texts = [
+      "Full Stack Developer",
+      "Front-End Developer",
+      "Website Developer"
+    ];
+    const changingTextEl = document.getElementById('changing-text');
+    let currentIndex = 0;
+    const typingSpeed = 100;
+    const erasingSpeed = 50;
+    const delayAfterTyping = 2000;
+
+    let charIndex = 0;
+    let isErasing = false;
+
+    function type() {
+      const currentText = texts[currentIndex];
+      if (!isErasing) {
+        if (charIndex < currentText.length) {
+          changingTextEl.textContent += currentText.charAt(charIndex);
+          charIndex++;
+          setTimeout(type, typingSpeed);
+        } else {
+          setTimeout(() => {
+            isErasing = true;
+            setTimeout(type, erasingSpeed);
+          }, delayAfterTyping);
+        }
+      } else {
+        if (charIndex > 0) {
+          changingTextEl.textContent = currentText.substring(0, charIndex - 1);
+          charIndex--;
+          setTimeout(type, erasingSpeed);
+        } else {
+          isErasing = false;
+          currentIndex = (currentIndex + 1) % texts.length;
+          setTimeout(type, typingSpeed);
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      type();
+    });
+  </script>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
